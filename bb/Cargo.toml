@@ -1,0 +1,7 @@
+[package]
+name = "bb"
+version = "0.1.0"
+authors = ["scott-linder <scott.b.linder@wmich.edu>"]
+
+[dependencies]
+mysql = "0.15.0"
