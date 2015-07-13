@@ -11,6 +11,7 @@ use mysql::value::from_value;
 fn main() {
     let opts = MyOpts {
         user: Some("bb".into()),
+        db_name: Some("bb".into()),
         ..Default::default()
     };
     let mut pool = MyPool::new(opts).unwrap();

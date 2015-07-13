@@ -10,8 +10,8 @@ pub struct Board {
 }
 
 impl Board {
-    pub fn all(pool: &mut MyPool) -> MyResult<Vec<Board>> {
-        let mut stmt = try!(pool.prepare("SELECT * FROM bb.boards"));
+    pub fn all(conn: &mut MyConn) -> MyResult<Vec<Board>> {
+        let mut stmt = try!(conn.prepare("SELECT * FROM boards"));
         let result = try!(stmt.execute(&[]));
         let mut boards = Vec::new();
         for row in result {
