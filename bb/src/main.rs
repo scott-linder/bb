@@ -1,12 +1,14 @@
 extern crate mysql;
+extern crate iron;
+extern crate router;
 
 mod board;
 
 use std::default::Default;
-
 use mysql::conn::MyOpts;
 use mysql::conn::pool::MyPool;
-use mysql::value::from_value;
+use iron::{Iron, Request, Response, status};
+use router::Router;
 
 fn main() {
     let opts = MyOpts {
@@ -14,8 +16,13 @@ fn main() {
         db_name: Some("bb".into()),
         ..Default::default()
     };
-    let mut pool = MyPool::new(opts).unwrap();
+    let pool = MyPool::new(opts).unwrap();
 
-    let boards = board::Board::all(&mut pool);
-    println!("{:#?}", boards);
+    let mut router = Router::new();
+    router.get("/boards", move |_req: &mut Request| {
+        let boards = board::Board::all(&mut pool.get_conn().unwrap());
+        Ok(Response::with((status::Ok, format!("{:#?}", boards))))
+    });
+
+    Iron::new(router).http("localhost:8080").unwrap();
 }

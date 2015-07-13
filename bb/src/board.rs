@@ -1,5 +1,5 @@
 use mysql::value::from_value;
-use mysql::conn::pool::MyPool;
+use mysql::conn::pool::MyPooledConn;
 use mysql::error::MyResult;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -10,7 +10,7 @@ pub struct Board {
 }
 
 impl Board {
-    pub fn all(conn: &mut MyConn) -> MyResult<Vec<Board>> {
+    pub fn all(conn: &mut MyPooledConn) -> MyResult<Vec<Board>> {
         let mut stmt = try!(conn.prepare("SELECT * FROM boards"));
         let result = try!(stmt.execute(&[]));
         let mut boards = Vec::new();
