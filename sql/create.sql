@@ -6,21 +6,20 @@ CREATE DATABASE bb;
 USE bb;
 
 CREATE TABLE boards (
-    board_id INT AUTO_INCREMENT,
-    board_name CHAR(8) NOT NULL,
+    board_name CHAR(8),
     board_desc VARCHAR(256) NOT NULL,
 
-    PRIMARY KEY (board_id)
+    PRIMARY KEY (board_name)
 );
 
 CREATE TABLE threads (
     thread_id INT AUTO_INCREMENT,
     thread_title VARCHAR(64) NOT NULL,
-    thread_board_id INT NOT NULL,
+    thread_board_name CHAR(8),
 
     PRIMARY KEY (thread_id),
-    FOREIGN KEY (thread_board_id)
-        REFERENCES boards(board_id)
+    FOREIGN KEY (thread_board_name)
+        REFERENCES boards(board_name)
         ON DELETE CASCADE
 );
 

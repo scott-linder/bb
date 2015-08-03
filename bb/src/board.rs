@@ -1,12 +1,13 @@
 use mysql::value::from_value;
 use mysql::conn::pool::MyPooledConn;
 use mysql::error::MyResult;
+use horrorshow;
+use horrorshow::prelude::*;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Board {
-    id: i32,
-    name: String,
-    desc: String,
+    pub name: String,
+    pub desc: String,
 }
 
 impl Board {
@@ -17,11 +18,33 @@ impl Board {
         for row in result {
             let row = try!(row);
             boards.push(Board {
-                id: from_value(&row[0]),
-                name: from_value(&row[1]),
-                desc: from_value(&row[2]),
+                name: from_value(&row[0]),
+                desc: from_value(&row[1]),
             });
         }
         Ok(boards)
+    }
+
+    pub fn html(boards: &[Self]) -> Result<String, horrorshow::Error> {
+        let html = try!(html! {
+            html {
+                head {
+                    title { : "boards" }
+                }
+                body {
+                    @ for board in boards {
+                        div {
+                            a(href=format!("/{}", board.name)) {
+                                : &board.name
+                            }
+                            p {
+                                : &board.desc
+                            }
+                        }
+                    }
+                }
+            }
+        }.into_string());
+        Ok(html)
     }
 }

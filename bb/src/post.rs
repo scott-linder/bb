@@ -1,6 +1,8 @@
 use mysql::value::from_value;
 use mysql::conn::pool::MyPooledConn;
 use mysql::error::MyResult;
+use horrorshow;
+use horrorshow::prelude::*;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Post {
@@ -23,5 +25,25 @@ impl Post {
             });
         }
         Ok(posts)
+    }
+
+    pub fn html(posts: &[Self]) -> Result<String, horrorshow::Error> {
+        let html = try!(html! {
+            html {
+                head {
+                    title { : "boards" }
+                }
+                body {
+                    @ for post in posts {
+                        div {
+                            p {
+                                : &post.text
+                            }
+                        }
+                    }
+                }
+            }
+        }.into_string());
+        Ok(html)
     }
 }

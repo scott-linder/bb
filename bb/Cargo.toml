@@ -6,4 +6,6 @@ authors = ["scott-linder <scott.b.linder@wmich.edu>"]
 [dependencies]
 mysql = "0.15.0"
 iron = "0.1.20"
+hyper = "*"
 router = "0.0.10"
+horrorshow = "0.5.2"
