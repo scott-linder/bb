@@ -27,13 +27,17 @@ impl Post {
         Ok(posts)
     }
 
-    pub fn html(posts: &[Self]) -> Result<String, horrorshow::Error> {
+    pub fn html(posts: &[Self], board_name: &str, thread_id: i32) -> Result<String, horrorshow::Error> {
         let html = try!(html! {
             html {
                 head {
                     title { : "posts" }
                 }
                 body {
+                    form(action=format!("/{}/thread/{}/post", board_name, thread_id), method="POST") {
+                        input(type="text", name="post_text");
+                        input(type="submit");
+                    }
                     @ for post in posts {
                         div {
                             p {
@@ -45,5 +49,11 @@ impl Post {
             }
         }.into_string());
         Ok(html)
+    }
+
+    pub fn insert(conn: &mut MyPooledConn, text: &str, thread_id: i32) -> MyResult<()> {
+        let mut stmt = try!(conn.prepare("INSERT INTO posts(post_text, post_thread_id) VALUES (?,?)"));
+        try!(stmt.execute(&[&text, &thread_id]));
+        Ok(())
     }
 }

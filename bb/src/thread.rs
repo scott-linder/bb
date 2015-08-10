@@ -33,6 +33,10 @@ impl Thread {
                 title { : "threads" }
             }
             body {
+                form(action=format!("/{}/thread", board_name), method="POST") {
+                    input(type="text", name="thread_title");
+                    input(type="submit");
+                }
                 @ for thread in threads {
                     div {
                         a(href=format!("/{}/thread/{}", board_name, thread.id)) {
@@ -43,5 +47,11 @@ impl Thread {
             }
         }.into_string());
         Ok(html)
+    }
+
+    pub fn insert(conn: &mut MyPooledConn, title: &str, board_name: &str) -> MyResult<()> {
+        let mut stmt = try!(conn.prepare("INSERT INTO threads(thread_title, thread_board_name) VALUES (?,?)"));
+        try!(stmt.execute(&[&title, &board_name]));
+        Ok(())
     }
 }

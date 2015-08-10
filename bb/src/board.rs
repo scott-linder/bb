@@ -32,6 +32,11 @@ impl Board {
                     title { : "boards" }
                 }
                 body {
+                    form(action="/", method="POST") {
+                        input(type="text", name="board_name");
+                        input(type="text", name="board_desc");
+                        input(type="submit");
+                    }
                     @ for board in boards {
                         div {
                             a(href=format!("/{}", board.name)) {
@@ -46,5 +51,11 @@ impl Board {
             }
         }.into_string());
         Ok(html)
+    }
+
+    pub fn insert(conn: &mut MyPooledConn, name: &str, desc: &str) -> MyResult<()> {
+        let mut stmt = try!(conn.prepare("INSERT INTO boards(board_name, board_desc) VALUES (?,?)"));
+        try!(stmt.execute(&[&name, &desc]));
+        Ok(())
     }
 }
