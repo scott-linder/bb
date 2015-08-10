@@ -31,7 +31,7 @@ impl Post {
         let html = try!(html! {
             html {
                 head {
-                    title { : "boards" }
+                    title { : "posts" }
                 }
                 body {
                     @ for post in posts {

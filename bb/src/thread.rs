@@ -30,7 +30,7 @@ impl Thread {
     pub fn html(threads: &[Self], board_name: &str) -> Result<String, horrorshow::Error> {
         let html = try!(html! {
             head {
-                title { : format!("{} threads", board_name) }
+                title { : "threads" }
             }
             body {
                 @ for thread in threads {
