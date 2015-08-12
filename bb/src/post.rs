@@ -32,17 +32,29 @@ impl Post {
             html {
                 head {
                     title { : "posts" }
+                    link(rel="stylesheet", href="/static/style/main.css");
                 }
                 body {
-                    form(action=format!("/{}/thread/{}/post", board_name, thread_id), method="POST") {
-                        input(type="text", name="post_text");
-                        input(type="submit");
+                    ul(class="breadcrumb") {
+                        li { a(href="/") { : "boards" } }
+                        li { a(href=format!("/{}", board_name)) { : board_name } }
+                        li { : thread_id }
                     }
-                    @ for post in posts {
-                        div {
-                            p {
-                                : &post.text
+                    div(class="posts") {
+                        @ for post in posts {
+                            div(class="post") {
+                                pre {
+                                    : &post.text
+                                }
                             }
+                        }
+                    }
+                    form(action=format!("/{}/thread/{}/post", board_name, thread_id), method="POST") {
+                        fieldset {
+                            legend { : "create post" }
+                            label(for="post_text") { : "post text" }
+                            textarea(id="post_text", name="post_text") { : "" }
+                            input(type="submit", value="create post");
                         }
                     }
                 }

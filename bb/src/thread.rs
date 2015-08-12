@@ -29,18 +29,31 @@ impl Thread {
 
     pub fn html(threads: &[Self], board_name: &str) -> Result<String, horrorshow::Error> {
         let html = try!(html! {
-            head {
-                title { : "threads" }
-            }
-            body {
-                form(action=format!("/{}/thread", board_name), method="POST") {
-                    input(type="text", name="thread_title");
-                    input(type="submit");
+            html {
+                head {
+                    title { : "threads" }
+                    link(rel="stylesheet", href="/static/style/main.css");
                 }
-                @ for thread in threads {
-                    div {
-                        a(href=format!("/{}/thread/{}", board_name, thread.id)) {
-                            : &thread.title
+                body {
+                    ul(class="breadcrumb") {
+                        li { a(href="/") { : "boards" } }
+                        li { : board_name }
+                    }
+                    ul(class="threads") {
+                        @ for thread in threads {
+                            li(class="thread") {
+                                a(href=format!("/{}/thread/{}", board_name, thread.id)) {
+                                    : &thread.title
+                                }
+                            }
+                        }
+                    }
+                    form(action=format!("/{}/thread", board_name), method="POST") {
+                        fieldset {
+                            legend { : "create thread" }
+                            label(for="thread_title") { : "thread title" }
+                            input(type="text", id="thread_title", name="thread_title");
+                            input(type="submit", value="create thread");
                         }
                     }
                 }

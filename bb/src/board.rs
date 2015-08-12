@@ -30,21 +30,32 @@ impl Board {
             html {
                 head {
                     title { : "boards" }
+                    link(rel="stylesheet", href="/static/style/main.css");
                 }
                 body {
-                    form(action="/", method="POST") {
-                        input(type="text", name="board_name");
-                        input(type="text", name="board_desc");
-                        input(type="submit");
+                    ul(class="breadcrumb") {
+                        li { : "boards" }
                     }
-                    @ for board in boards {
-                        div {
-                            a(href=format!("/{}", board.name)) {
-                                : &board.name
+                    ul(class="boards") {
+                        @ for board in boards {
+                            li(class="board") {
+                                a(href=format!("/{}", board.name)) {
+                                    : &board.name
+                                }
+                                p {
+                                    : &board.desc
+                                }
                             }
-                            p {
-                                : &board.desc
-                            }
+                        }
+                    }
+                    form(action="/", method="POST") {
+                        fieldset {
+                            legend { : "create board" }
+                            label(for="board_name") { : "board name" }
+                            input(type="text", id="board_name", name="board_name");
+                            label(for="board_desc") { : "board desc" }
+                            input(type="text", id="board_desc", name="board_desc");
+                            input(type="submit", value="create board");
                         }
                     }
                 }
