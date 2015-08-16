@@ -9,6 +9,7 @@ mod board;
 mod thread;
 mod post;
 mod htmlafter;
+mod doctypeafter;
 
 use board::Board;
 use thread::Thread;
@@ -115,6 +116,7 @@ fn main() {
     });
     let mut chain = Chain::new(router);
     chain.link_after(htmlafter::HtmlAfter);
+    chain.link_after(doctypeafter::DoctypeAfter);
 
     Iron::new(chain).http("localhost:8080").unwrap();
 }
