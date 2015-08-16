@@ -7,6 +7,7 @@ dependencies = [
  "iron 0.1.20 (registry+https://github.com/rust-lang/crates.io-index)",
  "mysql 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "router 0.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "time 0.1.30 (registry+https://github.com/rust-lang/crates.io-index)",
  "urlencoded 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

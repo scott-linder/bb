@@ -3,11 +3,13 @@ use mysql::conn::pool::MyPooledConn;
 use mysql::error::MyResult;
 use horrorshow;
 use horrorshow::prelude::*;
+use time::{Timespec, at_utc, strftime};
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Post {
     id: i32,
     text: String,
+    timestamp: Timespec,
     thread_id: i32,
 }
 
@@ -21,7 +23,8 @@ impl Post {
             posts.push(Post {
                 id: from_value(&row[0]),
                 text: from_value(&row[1]),
-                thread_id: from_value(&row[2]),
+                timestamp: from_value(&row[2]),
+                thread_id: from_value(&row[3]),
             });
         }
         Ok(posts)
@@ -47,7 +50,7 @@ impl Post {
                             div(class="post panel panel-default") {
                                 div(class="panel-heading") {
                                     h3(class="panel-title") {
-                                        : format!("#{}", post.id)
+                                        : format!("#{} ({} UTC)", post.id, strftime("%Y-%m-%d", &at_utc(post.timestamp)).unwrap())
                                     }
                                 }
                                 div(class="panel-body") {

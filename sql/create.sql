@@ -26,6 +26,7 @@ CREATE TABLE threads (
 CREATE TABLE posts (
     post_id INT AUTO_INCREMENT,
     post_text TEXT NOT NULL,
+    post_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     post_thread_id INT NOT NULL,
 
     PRIMARY KEY (post_id),

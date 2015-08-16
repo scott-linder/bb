@@ -4,6 +4,7 @@ extern crate hyper;
 extern crate router;
 extern crate urlencoded;
 #[macro_use] extern crate horrorshow;
+extern crate time;
 
 mod board;
 mod thread;
