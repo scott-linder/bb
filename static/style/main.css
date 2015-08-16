@@ -9,3 +9,8 @@ input {
     display: block;
     margin-bottom: 1em;
 }
+
+.boards a,
+.threads a {
+    color: inherit;
+}
