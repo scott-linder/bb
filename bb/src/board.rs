@@ -58,9 +58,9 @@ impl Board {
                         fieldset {
                             legend { : "create board" }
                             label(for="board_name") { : "board name" }
-                            input(type="text", id="board_name", name="board_name");
+                            input(type="text", id="board_name", name="board_name", required, maxlength="8");
                             label(for="board_desc") { : "board desc" }
-                            input(type="text", id="board_desc", name="board_desc");
+                            textarea(id="board_desc", required, maxlength="256", name="board_desc") { : "" }
                             input(type="submit", class="btn btn-default", value="create board");
                         }
                     }

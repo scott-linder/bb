@@ -61,7 +61,7 @@ impl Thread {
                         fieldset {
                             legend { : "create thread" }
                             label(for="thread_title") { : "thread title" }
-                            input(type="text", id="thread_title", name="thread_title");
+                            input(type="text", id="thread_title", required, maxlength="64", name="thread_title");
                             input(type="submit", class="btn btn-default", value="create thread");
                         }
                     }
