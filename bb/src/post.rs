@@ -54,7 +54,9 @@ impl Post {
                                     }
                                 }
                                 div(class="panel-body") {
-                                    : &post.text
+                                    p {
+                                        : &post.text
+                                    }
                                 }
                             }
                         }

@@ -14,3 +14,10 @@ input {
 .threads a {
     color: inherit;
 }
+
+.post p {
+    white-space: pre;
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+}
