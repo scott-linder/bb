@@ -32,6 +32,8 @@ impl Post {
             html {
                 head {
                     title { : "posts" }
+                    link(rel="stylesheet", href="/static/bootstrap/css/bootstrap.min.css");
+                    link(rel="stylesheet", href="/static/bootstrap/css/bootstrap-theme.min.css");
                     link(rel="stylesheet", href="/static/style/main.css");
                 }
                 body {
@@ -42,8 +44,13 @@ impl Post {
                     }
                     div(class="posts") {
                         @ for post in posts {
-                            div(class="post") {
-                                pre {
+                            div(class="post panel panel-default") {
+                                div(class="panel-heading") {
+                                    h3(class="panel-title") {
+                                        : format!("#{}", post.id)
+                                    }
+                                }
+                                div(class="panel-body") {
                                     : &post.text
                                 }
                             }
@@ -54,7 +61,7 @@ impl Post {
                             legend { : "create post" }
                             label(for="post_text") { : "post text" }
                             textarea(id="post_text", name="post_text") { : "" }
-                            input(type="submit", value="create post");
+                            input(type="submit", class="btn btn-default", value="create post");
                         }
                     }
                 }

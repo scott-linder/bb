@@ -32,6 +32,8 @@ impl Thread {
             html {
                 head {
                     title { : "threads" }
+                    link(rel="stylesheet", href="/static/bootstrap/css/bootstrap.min.css");
+                    link(rel="stylesheet", href="/static/bootstrap/css/bootstrap-theme.min.css");
                     link(rel="stylesheet", href="/static/style/main.css");
                 }
                 body {
@@ -39,11 +41,18 @@ impl Thread {
                         li { a(href="/") { : "boards" } }
                         li { : board_name }
                     }
-                    ul(class="threads") {
+                    div(class="threads") {
                         @ for thread in threads {
-                            li(class="thread") {
-                                a(href=format!("/{}/thread/{}", board_name, thread.id)) {
-                                    : &thread.title
+                            a(href=format!("/{}/thread/{}", board_name, thread.id)) {
+                                div(class="thread panel panel-default") {
+                                    div(class="panel-heading") {
+                                        h3(class="panel-title") {
+                                            : &thread.title
+                                        }
+                                    }
+                                    div(class="panel-body") {
+                                        : "placeholder"
+                                    }
                                 }
                             }
                         }
@@ -53,7 +62,7 @@ impl Thread {
                             legend { : "create thread" }
                             label(for="thread_title") { : "thread title" }
                             input(type="text", id="thread_title", name="thread_title");
-                            input(type="submit", value="create thread");
+                            input(type="submit", class="btn btn-default", value="create thread");
                         }
                     }
                 }

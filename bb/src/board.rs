@@ -30,20 +30,26 @@ impl Board {
             html {
                 head {
                     title { : "boards" }
+                    link(rel="stylesheet", href="/static/bootstrap/css/bootstrap.min.css");
+                    link(rel="stylesheet", href="/static/bootstrap/css/bootstrap-theme.min.css");
                     link(rel="stylesheet", href="/static/style/main.css");
                 }
                 body {
                     ul(class="breadcrumb") {
                         li { : "boards" }
                     }
-                    ul(class="boards") {
+                    div(class="boards") {
                         @ for board in boards {
-                            li(class="board") {
-                                a(href=format!("/{}", board.name)) {
-                                    : &board.name
-                                }
-                                p {
-                                    : &board.desc
+                            a(href=format!("/{}", board.name)) {
+                                div(class="board panel panel-default") {
+                                    div(class="panel-heading") {
+                                        h3(class="panel-title") {
+                                            : &board.name
+                                        }
+                                    }
+                                    div(class="panel-body") {
+                                        : &board.desc
+                                    }
                                 }
                             }
                         }
@@ -55,7 +61,7 @@ impl Board {
                             input(type="text", id="board_name", name="board_name");
                             label(for="board_desc") { : "board desc" }
                             input(type="text", id="board_desc", name="board_desc");
-                            input(type="submit", value="create board");
+                            input(type="submit", class="btn btn-default", value="create board");
                         }
                     }
                 }
