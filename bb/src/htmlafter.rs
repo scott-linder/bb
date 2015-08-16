@@ -1,6 +1,6 @@
 use iron::{Request, Response, IronResult};
 use iron::middleware::AfterMiddleware;
-use hyper::mime::{Mime, TopLevel, SubLevel};
+use hyper::mime::{Mime, TopLevel, SubLevel, Attr, Value};
 use hyper::header::ContentType;
 use iron::modifier::Set;
 use iron::modifiers::Header;
@@ -10,6 +10,6 @@ pub struct HtmlAfter;
 
 impl AfterMiddleware for HtmlAfter {
     fn after(&self, _: &mut Request, res: Response) -> IronResult<Response> {
-        Ok(res.set(Header(ContentType(Mime(TopLevel::Text, SubLevel::Html, vec![])))))
+        Ok(res.set(Header(ContentType(Mime(TopLevel::Text, SubLevel::Html, vec![(Attr::Charset, Value::Utf8)])))))
     }
 }
