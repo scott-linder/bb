@@ -27,7 +27,7 @@ impl Thread {
         Ok(threads)
     }
 
-    pub fn html(threads: &[Self], board_name: &str) -> Result<String, horrorshow::Error> {
+    pub fn html(threads: &[(&Self, i32)], board_name: &str) -> Result<String, horrorshow::Error> {
         let html = try!(html! {
             html {
                 head {
@@ -43,15 +43,15 @@ impl Thread {
                     }
                     div(class="threads") {
                         @ for thread in threads {
-                            a(href=format!("/{}/thread/{}", board_name, thread.id)) {
+                            a(href=format!("/{}/thread/{}", board_name, thread.0.id)) {
                                 div(class="thread panel panel-default") {
                                     div(class="panel-heading") {
                                         h3(class="panel-title") {
-                                            : &thread.title
+                                            : &thread.0.title
                                         }
                                     }
                                     div(class="panel-body") {
-                                        : "placeholder"
+                                        : format!("{} posts", thread.1)
                                     }
                                 }
                             }
@@ -75,5 +75,21 @@ impl Thread {
         let mut stmt = try!(conn.prepare("INSERT INTO threads(thread_title, thread_board_name) VALUES (?,?)"));
         try!(stmt.execute(&[&title, &board_name]));
         Ok(())
+    }
+
+    pub fn post_count(&self, conn: &mut MyPooledConn) -> MyResult<i32> {
+        let mut stmt = try!(conn.prepare(
+            "SELECT COUNT(*)
+            FROM threads
+            JOIN posts ON post_thread_id = thread_id
+            WHERE thread_id = ?"
+        ));
+        let mut result = try!(stmt.execute(&[&self.id]));
+        return if let Some(row) = result.next() {
+            let row = try!(row);
+            Ok(from_value(&row[0]))
+        } else {
+            Ok(0)
+        }
     }
 }

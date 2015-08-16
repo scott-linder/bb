@@ -61,7 +61,11 @@ fn main() {
         let board_name = router.find("board_name").unwrap();
         let mut conn = pool.get_conn().unwrap();
         let threads = Thread::for_board(&mut conn, board_name).unwrap();
-        let html = Thread::html(&threads[..], board_name).unwrap();
+        let mut threads_with_counts = Vec::new();
+        for thread in &threads {
+            threads_with_counts.push((thread, thread.post_count(&mut conn).unwrap()));
+        }
+        let html = Thread::html(&threads_with_counts[..], board_name).unwrap();
         Ok(Response::with((status::Ok, html)))
     });
 
