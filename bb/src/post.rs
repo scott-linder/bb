@@ -50,7 +50,7 @@ impl Post {
                             div(class="post panel panel-default") {
                                 div(class="panel-heading") {
                                     h3(class="panel-title") {
-                                        : format!("#{} ({} UTC)", post.id, strftime("%Y-%m-%d", &at_utc(post.timestamp)).unwrap())
+                                        : format!("#{} ({})", post.id, strftime("%Y-%m-%dT%H:%M:%SZ", &at_utc(post.timestamp)).unwrap())
                                     }
                                 }
                                 div(class="panel-body") {
